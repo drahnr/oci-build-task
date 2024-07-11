@@ -69,6 +69,15 @@ func (registry LocalRegistry) BuildArgs(port string) []string {
 	return buildArgs
 }
 
+func (registry LocalRegistry) CacheImports(port string) []string {
+	var cacheImports []string
+	for name, _ := range registry {
+		cacheImports = append(cacheImports, fmt.Sprintf("localhost:%s/%s", port, name))
+	}
+
+	return cacheImports
+}
+
 func (registry LocalRegistry) GetManifest(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 	name := p.ByName("name")
 	ref := p.ByName("ref")

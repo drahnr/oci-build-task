@@ -99,6 +99,10 @@ func Build(buildkitd *Buildkitd, outputsDir string, req Request) (Response, erro
 				"--opt", "build-arg:"+arg,
 			)
 		}
+		for _, image := range registry.CacheImports(port) {
+			buildctlArgs = append(buildctlArgs,
+				"--import-cache", "type=registry,ref="+image)
+		}
 	}
 
 	if _, err := os.Stat(cacheDir); err == nil {
